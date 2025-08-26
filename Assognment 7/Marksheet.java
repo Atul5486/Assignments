@@ -16,6 +16,7 @@ class Marksheet {
     private int rollno;
     private int marks[]=new int[5];
     private int prMarks[]=new int[2];
+    private String sub[]={"Cloud Computing","DBMS","Statics","Operating System","Java"};
     private double per;
     private int count=0;
     private String year;
@@ -39,23 +40,23 @@ class Marksheet {
         fname=inp.nextLine();
         System.out.println("Enter your mother name");
         mname=inp.nextLine();
-        System.out.println("Enter your DOB");
+        System.out.println("Enter your DOB (DD-MM-YY)");
         dob=inp.nextLine();
     }
 
 void getData() {
     System.out.println(BORDER+TABLE_FG);
     System.out.println("Name        : " + name);
-    System.out.println(TABLE_FG + "Father Name : " + fname + "\t\tMother Name   : " + mname);
-    System.out.println(TABLE_FG + "Roll No     : " + rollno + "\t\tDOB           : " + dob);
-    System.out.println(TABLE_FG + "Year        : " + year + "\t\tSemester      : " + sem + RESET);
+    System.out.println(TABLE_FG + "Father Name : " + fname + "\tMother Name   : " + mname);
+    System.out.println(TABLE_FG + "Roll No     : " + rollno + "\t\tDOB (DD-MM-YY) : " + dob);
+    System.out.println(TABLE_FG + "Year        : " + year + "\t\t\tSemester      : " + sem);
 }
 
     void setTheoryData(){
         Scanner inp=new Scanner(System.in);
         for(int i=0;i<5;i++){
             do{
-                System.out.println("Enter marks of subject "+(i+1));
+                System.out.println("Enter marks of "+sub[i]);
                 marks[i]=inp.nextInt();
             }while(marks[i]<0 || marks[i]>100);
         }
@@ -105,43 +106,44 @@ void getData() {
     }
 
     void printMarksheet(){
-        System.out.println("|"+HEADER_BG + HEADER_FG + BOLD + "================= OFFICIAL MARKSHEET =================" + RESET);
-        System.out.println("|"+"\n\tABC Science College, Indore (M.P.)");
-        System.out.println("|"+FAIL_FG+BOLD+"\t\tGRADE SHEET"+RESET);
-        System.out.println("|"+"\tBCA "+sem +" SEMESTER MAIN EXAMINATION\n");
-        System.out.println("|"+"--------------------------------------------------------");
+        System.out.println("| "+HEADER_BG + HEADER_FG + BOLD + "================= OFFICIAL MARKSHEET =================" + RESET+BORDER);
+        System.out.println(TABLE_FG+"|"+"\n\tABC Science College, Indore (M.P.)");
+        System.out.println("| "+FAIL_FG+BOLD+"\t\tGRADE SHEET"+RESET+BORDER);
+        System.out.println(TABLE_FG+"| "+"\tBCA "+sem +" SEMESTER MAIN EXAMINATION\n");
+        System.out.println("| "+"--------------------------------------------------------");
         getData();
-        System.out.println("|"+"--------------------------------------------------------");
+        System.out.println(BORDER+"| "+"--------------------------------------------------------");
 
-        System.out.printf("|"+TABLE_HEADER_BG + TABLE_FG + "%-20s %-10s %-10s" + RESET + "\n","Subject","Out Of","Obtained");
+        System.out.printf("| "+TABLE_HEADER_BG + TABLE_FG + "%-20s %-10s %-10s" + "\n","Subject","Out Of","Obtained"+RESET+BORDER+HEADER_FG);
 
         int totalTheory=0, totalPractical=0;
         for(int i=0;i<5;i++){
             totalTheory+=marks[i];
-            System.out.printf("|"+"%-20s %-10d %-10d\n","Theory "+(i+1),100,marks[i]);
+            System.out.printf("| "+"%-20s %-10d %-10d\n",sub[i],100,marks[i]);
         }
         for(int i=0;i<2;i++){
             totalPractical+=prMarks[i];
-            System.out.printf("|"+"%-20s %-10d %-10d\n","Practical "+(i+1),25,prMarks[i]);
+            System.out.printf("| "+"%-20s %-10d %-10d\n","Practical "+(i+1),25,prMarks[i]);
         }
-
-        System.out.println("|"+"--------------------------------------------------------");
+        System.out.println("| "+"--------------------------------------------------------");
         int grandTotal=totalTheory+totalPractical;
-        System.out.printf("|"+RESET+"%-20s %-10d %-10d\n","TOTAL",550,grandTotal);
+        System.out.printf("| "+"%-20s %-10d %-10d\n","TOTAL",550,grandTotal);
 
         float p=(float)percentage();
         String g=grade();
         String s=status();
 
-        System.out.println("|"+"--------------------------------------------------------");
-        System.out.println("|"+"Percentage : "+p+"%");
-        System.out.println("|"+"Grade      : "+g);
+        System.out.println("| "+"--------------------------------------------------------");
+        System.out.println("| "+"Percentage : "+p+"%");
+        System.out.println("| "+"Grade      : "+g);
         if(s.equals("Pass")){
-            System.out.println("|"+"Result     : "+PASS_FG+s+RESET);
+            System.out.println("|"+"Result     : "+PASS_FG+s+" (Your are Promoted to next Class)"+RESET);
         }else{
-            System.out.println("|"+"Result     : "+FAIL_FG+s+RESET);
+            System.out.println("| "+"Result     : "+FAIL_FG+s+RESET);
         }
-        System.out.println("|"+HEADER_BG + HEADER_FG + "========================================================" + RESET);
+        System.out.println(BORDER+"|"+"--------------------------------------------------------");
+        System.out.println("| Principle : David Henry \t Signature : DavidHenry"+RESET);
+        System.out.println("| "+HEADER_BG + HEADER_FG + "========================================================" + RESET);
     }
 }
 
