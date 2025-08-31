@@ -20,9 +20,11 @@ public class Main{
             dc[doctorCount++]=new Doctor(id,name,specialization);
         }
         static void displayDoc(){
+             System.out.printf("\n %-10s %-20s %-20s%n", "Doctor Id", "Name", "Specialization ");
             for(int i=0;i<doctorCount;i++){
                dc[i].display();
             }
+            System.out.println("--------------------------------");
         }
         static void addPatient(){
             System.out.println("Enter Id of patient");
@@ -34,6 +36,13 @@ public class Main{
             String disease=inp.nextLine();
             pt[patientCount++]=new Patient(id,name,disease);
         }
+        static void displayPat(){
+            System.out.printf("\n %-10s %-20s %-20s%n", "Patient Id", "Name", "Disease");
+            for(int i=0;i<patientCount;i++){
+               pt[i].display();
+            }
+            System.out.println("--------------------------------");
+        }
         static void addMedicine(){
             System.out.println("Enter Id of medicine");
             int id=inp.nextInt();
@@ -44,23 +53,27 @@ public class Main{
             Double price=inp.nextDouble();
             md[medicineCount++]=new Medicine(id,name,price);
         }
+        static void displayMedi(){
+             System.out.printf("\n%-10s %-20s %-20s%n", "Medicine Id", "Name", "Price");
+            for(int i=0;i<medicineCount;i++){
+               md[i].display();
+            }
+            System.out.println("--------------------------------");
+        }
         
     public static void main(String args[]){
      int choice;
      do{
          System.out.println("Enter your choice");
-     System.out.println("1.Add doctor \n2.View all doctor\n3.Find doctor\n4.Add Patient\n5.View all Patient\n6.Find Patient\n7.Add Medicine\n8.View all Medicine\n9.Find Medicine\n10.Quit");
+     System.out.println("1.Add doctor \n2.View all doctor\n3.Add Patient\n4.View all Patient\n5.Add Medicine\n6.View all Medicine\n10.Quit");
          choice=inp.nextInt();
      switch(choice){
-        case 1:addDoctor();
-        case 2:displayDoc();
-        case 3:break;
-        case 4:break;
-        case 5:break;
-        case 6:break;
-        case 7:break;
-        case 8:break;
-        case 9:break;
+        case 1:addDoctor();break;
+        case 2:displayDoc();break;
+        case 3:addPatient();break;
+        case 4:displayPat();break;
+        case 5:addMedicine();break;
+        case 6:displayMedi();break;
         case 10:System.out.println("Exiting successfully");
             break;
         default:
