@@ -63,22 +63,31 @@ class Main {
 
     static void openAccount() {
     clearScreen();
-    System.out.println(YELLOW + "===== Open Account =====" + RESET);
+    System.out.println(YELLOW + "===== WELCOME YOU IN BHAICHARA BANK =====" + RESET);
+    System.out.println(YELLOW + "        ===== Open Account =====" + RESET);
     System.out.println("1. Joint Account");
     System.out.println("2. Saving Account");
     System.out.println("3. Child Account");
     System.out.println("Enter choice: ");
     int ch = sc.nextInt();
-    System.out.println();
+    // System.out.println();
     balance = 0.0;
     accountType = "";
-
+    registerUser();
     switch (ch) {
         case 1:
-            System.out.println("Enter Spouse Name: ");
-            String spouse = sc.next();   
+             String spouseName;
+             int spouseAge;
+            do{
+           System.out.println("Enter Spouse Name: ");
+             spouseName = sc.next();
+        }while(!spouseName.matches("[a-zA-Z]+"));
+              
+            do {
             System.out.println("Enter Spouse Age: ");
-            int spouseAge = sc.nextInt();
+             spouseAge = sc.nextInt();
+        } while (spouseAge <= 1 || spouseAge >100);
+            
             do {
                 System.out.println("Enter minimum balance (5000)");
                 balance = sc.nextDouble();
@@ -90,10 +99,18 @@ class Main {
             break;
 
         case 2:
+            int nomineeAge;
+            String nominee;
+            do{
             System.out.println("Enter Nominee Name: ");
-            String nominee = sc.next();
-            System.out.println("Enter Nominee Age: ");
-            int nomineeAge = sc.nextInt();
+            nominee= sc.next();
+        }while(!nominee.matches("[a-zA-Z]+"));
+            
+            do {
+           System.out.println("Enter Nominee Age: ");
+            nomineeAge = sc.nextInt();
+        } while (nomineeAge <= 1 || nomineeAge >100);
+            
             do {
                 System.out.println("Enter minimum balance (2000)");
                 balance = sc.nextDouble();
@@ -105,10 +122,16 @@ class Main {
             break;
 
         case 3:
-            System.out.println("Enter Child Name: ");
-            String child = sc.next();
-            System.out.println("Enter Guardian Age: ");
-            int gAge = sc.nextInt();
+            int gAge;String gname;
+            do{
+            System.out.println("Enter Guardian Name: ");
+            gname = sc.next();
+        }while(!gname.matches("[a-zA-Z]+"));
+            
+            do {
+           System.out.println("Enter Guardian Age: ");
+            gAge = sc.nextInt();
+        } while (gAge <= 1 || gAge >100);
             do {
                 System.out.println("Enter minimum balance (1000)");
                 balance = sc.nextDouble();
@@ -197,27 +220,25 @@ class Main {
     }
 
     public static void main(String[] args) {
-        registerUser();
-
+        openAccount();
         while (active) {
             clearScreen();
             System.out.println(YELLOW + "===== Banking Menu =====" + RESET);
-            System.out.println("1. Open Account");
-            System.out.println("2. Deposit");
-            System.out.println("3. Withdraw");
-            System.out.println("4. Display Details");
-            System.out.println("5. Deactivate Account");
-            System.out.println("6. Exit");
+            // System.out.println("1.");
+            System.out.println("1. Deposit");
+            System.out.println("2. Withdraw");
+            System.out.println("3. Display Details");
+            System.out.println("4. Deactivate Account");
+            System.out.println("5. Exit");
             System.out.println("Enter choice: ");
             int choice = sc.nextInt();
 
             switch (choice) {
-                case 1: openAccount(); break;
-                case 2: deposit(); break;
-                case 3: withdraw(); break;
-                case 4: displayDetails(); break;
-                case 5: deactivateAccount(); break;
-                case 6: active = false; break;
+                case 1: deposit(); break;
+                case 2: withdraw(); break;
+                case 3: displayDetails(); break;
+                case 4: deactivateAccount(); break;
+                case 5: active = false; break;
                 default: System.out.println("Invalid Choice!");
             }
 
