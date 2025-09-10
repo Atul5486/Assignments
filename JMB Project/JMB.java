@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.time.LocalDate;
 
 class Main {
     public static Scanner inp = new Scanner(System.in);
@@ -60,8 +61,9 @@ class JMB {
     //Details info
     String name;
     int guest;
-    int mob;
-
+    long mob;
+    String date;
+    String billno="JMB"+String.valueOf((int)(Math.random()*10000));
     // Order storage
     String orderedItems[] = new String[100];
     double orderedPrices[] = new double[100];
@@ -247,23 +249,39 @@ class JMB {
         System.out.println(item + " added to order.");
     }
     void details(){
-        System.out.print(BLACK+"Enter your name : ");
+        System.out.print(BG+BLACK+"Enter your name : ");
         name=inp.nextLine().toLowerCase();
+        do{
         System.out.print("Enter total number of guest : ");
         guest=inp.nextInt();
-        System.out.print("Enter mobile number : "+RESET);
-        mob=inp.nextInt();
+        }while(guest<0 ||guest>1000);
+        System.out.print("Enter mobile number : "+BG);
+        mob=inp.nextLong();
+        System.out.print("Enter event date(dd-mm-yy) : ");
+        date=inp.next();
+
     }
     void displayBill() {
-        System.out.println("\n");
-        System.out.println(RESET+BOLD + MAROON + "\n\t\t=============== FINAL BILL ===============" + RESET+BG+BLACK);
+        System.out.println(RESET+BOLD + MAROON + "\n\t\t=============== 🙏  JMB BILL 🙏  ===============" + RESET+BG+BLACK);
+        System.out.println("\n--------------------------------------------\n");
+        System.out.printf("%-10s%2s%20s%2s%n", "Bill No:", billno, "Customer Name:", name);
+        System.out.printf("%-10s%2s%20s%2s%n", "No. of guest:", guest, "Booking Date:", date);
+        System.out.println("Mobile no : "+ mob);
+        System.out.println("Today date : "+LocalDate.now());
+        System.out.println("\n--------------------------------------------");
         System.out.printf("%-25s %-10s %-10s\n", "Item", "Qty", "Price(Rs)");
         for (int i = 0; i < orderCount; i++) {
             System.out.printf("%-25s %-10d %-10.2f\n", orderedItems[i], guest, orderedPrices[i]);
         }
         System.out.println("--------------------------------------------");
         System.out.printf("TOTAL: Rs %.2f\n", total);
-        System.out.println(RESET+BOLD + MAROON + "\t\t========== THANK YOU VISIT AGAIN ! ==========" + RESET);
+        double gst=total*18/100;
+        double totalGst=total+gst;
+        System.out.printf("GST(18%%): Rs %.2f%n", gst);
+        System.out.println("--------------------------------------------");
+        System.out.printf("%-20s Rs %.2f%n", "TOTAL(in. GST):", totalGst);
+        System.out.println(RESET);
+        System.out.println(BOLD + MAROON + "\t\t========== 😎 THANK YOU VISIT AGAIN 😇! ==========" + RESET);
         System.out.println(RESET);
     }
 }
