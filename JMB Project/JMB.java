@@ -57,6 +57,7 @@ class JMB {
     public static final String MAROON = "\u001B[48;5;52m";
     public static final String BG = "\u001B[47m";
     public static final String BLACK = "\u001B[30m";
+    public static final String MAGENTA ="\u001b[45m";
 
     //Details info
     String name;
@@ -98,7 +99,20 @@ class JMB {
         int choice = inp.nextInt();
         if(choice >=1 && choice <= thali.length){
             vegetableType(choice);
-            addOrder(thali[choice-1], thaliPrice[choice-1]);
+        if(orderedItems.length>=0){
+        boolean isAlreadyOrdered = false;
+        for (int i = 0; i <= orderCount; i++) {
+            if (thali[choice - 1].equals(orderedItems[i])) {
+             System.out.println("\n" + MAGENTA + "Item already added" + BG);
+            isAlreadyOrdered = true;
+            break;
+     }
+    }
+        if (!isAlreadyOrdered) {
+            addOrder(thali[choice - 1], thaliPrice[choice - 1]);
+        }
+
+            }
         }
     }
     
@@ -126,9 +140,23 @@ class JMB {
         System.out.println("Enter item number to order (0 to skip):");
         int choice = inp.nextInt();
         if(choice >=1 && choice <= breakfast.length){
-           char breakChoice=breakfast[choice-1].charAt((breakfast[choice-1].length())-1);
+            char breakChoice=breakfast[choice-1].charAt((breakfast[choice-1].length())-1);
             breakfastType(breakChoice);
+
+        if(orderedItems.length>=0){
+        boolean isAlreadyOrdered = false;
+        for (int i = 0; i <= orderCount; i++) {
+            if(breakfast[choice-1].equals(orderedItems[i])){
+             System.out.println("\n" + MAGENTA + "Item already added" + BG);
+            isAlreadyOrdered = true;
+            break;
+            }
+        }   
+        if (!isAlreadyOrdered) {
             addOrder(breakfast[choice-1], breakfastPrice[choice-1]);
+        }
+
+      }
         }
     }
 
@@ -145,9 +173,22 @@ class JMB {
         System.out.println("Enter item number to order (0 to skip):");
         int choice = inp.nextInt();
         if(choice >=1 && choice <= soup.length){
+            if(orderedItems.length>=0){
+        boolean isAlreadyOrdered = false;
+        for (int i = 0; i <= orderCount; i++) {
+             if(soup[choice-1].equals(orderedItems[i])){
+                System.out.println("\n"+MAGENTA+"Item already added"+BG);
+            isAlreadyOrdered = true;
+            break;
+     }
+    }
+        if (!isAlreadyOrdered) {
             addOrder(soup[choice-1], soupPrice[choice-1]);
         }
-    }
+            }          
+            }
+        }
+    
 
     // ---------------- MOCKTAIL ----------------
     String mocktails[] = {"Blue Lagoon", "Blowgun Kesher Pista", "Fresh Lime Water", "Butter Milk",
@@ -162,10 +203,23 @@ class JMB {
     void orderMocktail() {
         System.out.println("Enter item number to order (0 to skip):");
         int choice = inp.nextInt();
+        boolean isAlreadyOrdered = false;
         if(choice >=1 && choice <= mocktails.length){
+         if(orderedItems.length>=0){
+        for(int i=0;i<=orderCount;i++){
+             if(mocktails[choice-1].equals(orderedItems[i])){
+                System.out.println("\n"+MAGENTA+"Item already added"+BG);
+            isAlreadyOrdered = true;
+            break;
+     }
+    }
+        if (!isAlreadyOrdered) {
             addOrder(mocktails[choice-1], mocktailPrice[choice-1]);
         }
-    }
+            }          
+            }
+        
+        }
 
     // ---------------- PANEER STARTERS ----------------
     String paneerStarter[] = {"Paneer Chilli", "Paneer Tikka", "Dragon Paneer", "Paneer 65",
@@ -180,11 +234,28 @@ class JMB {
     void orderPaneerStarter() {
         System.out.println("Enter item number to order (0 to skip):");
         int choice = inp.nextInt();
-        if(choice >=1 && choice <= paneerStarter.length){
-            addOrder(paneerStarter[choice-1], paneerStarterPrice[choice-1]);
-        }
-    }
+        String selectedItem = paneerStarter[choice - 1];
+        boolean isAlreadyOrdered = false;
+        if (choice == 0) return;
 
+        if (choice < 1 || choice > paneerStarter.length) {
+        System.out.println("Invalid choice. Please try again.");
+        return;
+         }
+
+        for (int i = 0; i < orderCount; i++) { 
+        if (orderedItems[i].equals(selectedItem)) {
+            isAlreadyOrdered = true;
+            break;
+        }
+      }
+        if (!isAlreadyOrdered) {
+        addOrder(selectedItem, paneerStarterPrice[choice - 1]);
+    } else {
+            System.out.println("\n"+MAGENTA+"Item already added"+BG);
+    }
+    }
+    
     // ---------------- PANEER DISHES ----------------
     String paneerDish[] = {"Paneer Butter Masala", "Paneer Punjabi", "Paneer Palak", "Paneer Mutter",
                            "Paneer Do Pyaza", "Paneer Tikka Masala", "Paneer Kadai", "Methi Paneer",
@@ -199,9 +270,26 @@ class JMB {
     void orderPaneerDish() {
         System.out.println("Enter item number to order (0 to skip):");
         int choice = inp.nextInt();
-        if(choice >=1 && choice <= paneerDish.length){
-            addOrder(paneerDish[choice-1], paneerDishPrice[choice-1]);
+        String selectedItem = paneerDish[choice - 1];
+        boolean isAlreadyOrdered = false;
+        if (choice == 0) return;
+
+        if (choice < 1 || choice > paneerDish.length) {
+        System.out.println("Invalid choice. Please try again.");
+        return;
+         }
+
+        for (int i = 0; i < orderCount; i++) { 
+        if (orderedItems[i].equals(selectedItem)) {
+            isAlreadyOrdered = true;
+            break;
         }
+      }
+        if (!isAlreadyOrdered) {
+        addOrder(paneerDish[choice-1], paneerDishPrice[choice-1]);
+    } else {
+            System.out.println("\n"+MAGENTA+"Item already added"+BG);
+    }
     }
 
     // ---------------- CURD DISHES ----------------
@@ -217,9 +305,26 @@ class JMB {
     void orderCurd() {
         System.out.println("Enter item number to order (0 to skip):");
         int choice = inp.nextInt();
-        if(choice >=1 && choice <= curd.length){
-            addOrder(curd[choice-1], curdPrice[choice-1]);
+        String selectedItem = curd[choice - 1];
+        boolean isAlreadyOrdered = false;
+        if (choice == 0) return;
+
+        if (choice < 1 || choice > curd.length) {
+        System.out.println("Invalid choice. Please try again.");
+        return;
+         }
+
+        for (int i = 0; i < orderCount; i++) { 
+        if (orderedItems[i].equals(selectedItem)) {
+            isAlreadyOrdered = true;
+            break;
         }
+      }
+        if (!isAlreadyOrdered) {
+        addOrder(curd[choice-1], curdPrice[choice-1]);
+    } else {
+            System.out.println("\n"+MAGENTA+"Item already added"+BG);
+    }
     }
 
     // ---------------- SWEETS ----------------
@@ -235,9 +340,26 @@ class JMB {
     void orderSweet() {
         System.out.println("Enter item number to order (0 to skip):");
         int choice = inp.nextInt();
-        if(choice >=1 && choice <= sweet.length){
-            addOrder(sweet[choice-1], sweetPrice[choice-1]);
+        String selectedItem = sweet[choice - 1];
+        boolean isAlreadyOrdered = false;
+        if (choice == 0) return;
+
+        if (choice < 1 || choice > sweet.length) {
+        System.out.println("Invalid choice. Please try again.");
+        return;
+         }
+
+        for (int i = 0; i < orderCount; i++) { 
+        if (orderedItems[i].equals(selectedItem)) {
+            isAlreadyOrdered = true;
+            break;
         }
+      }
+        if (!isAlreadyOrdered) {
+        addOrder(sweet[choice-1], sweetPrice[choice-1]);
+    } else {
+            System.out.println("\n"+MAGENTA+"Item already added"+BG);
+    }
     }
 
     // ---------------- ORDER SYSTEM ----------------
@@ -264,16 +386,17 @@ class JMB {
     void displayBill() {
         System.out.println(RESET+BOLD + MAROON + "\n\t\t=============== 🙏  JMB BILL 🙏  ===============" + RESET+BG+BLACK);
         System.out.println("\n--------------------------------------------\n");
-        System.out.printf("%-10s%2s%20s%2s%n", "Bill No:", billno, "Customer Name:", name);
-        System.out.printf("%-10s%2s%20s%2s%n", "No. of guest:", guest, "Booking Date:", date);
+        System.out.printf("%-10s%2s%25s%2s%n", "Bill No:", billno, "Customer Name:", name);
+        System.out.printf("%-10s%2s%25s%2s%n", "No. of guest:", guest,"Booking Date:", date);
         System.out.println("Mobile no : "+ mob);
         System.out.println("Today date : "+LocalDate.now());
-        System.out.println("\n--------------------------------------------");
-        System.out.printf("%-25s %-10s %-10s\n", "Item", "Qty", "Price(Rs)");
+        System.out.println("\n------------------------------------------------------");
+        System.out.printf("S.no"+"%-25s %-10s %-10s\n", "  Item", "Qty", "Price(Rs)");
+        System.out.println("------------------------------------------------------");
         for (int i = 0; i < orderCount; i++) {
-            System.out.printf("%-25s %-10d %-10.2f\n", orderedItems[i], guest, orderedPrices[i]);
+            System.out.printf((i+1)+".   %-25s %-10d %-10.2f\n", orderedItems[i], guest, orderedPrices[i]);
         }
-        System.out.println("--------------------------------------------");
+        System.out.println("------------------------------------------------------");
         System.out.printf("TOTAL: Rs %.2f\n", total);
         double gst=total*18/100;
         double totalGst=total+gst;
