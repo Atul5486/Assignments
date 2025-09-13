@@ -57,6 +57,7 @@ class JMB {
     public static final String BG = "\u001B[47m";
     public static final String BLACK = "\u001B[30m";
     public static final String MAGENTA ="\u001b[45m";
+    public static String RED = "\u001B[41m";
 
     //Details info
     String name;
@@ -71,6 +72,16 @@ class JMB {
     int orderCount = 0;
     double total = 0;
 
+
+    // //--------------- SELECTED THALI --------------
+
+    // String selectedItem1[]={"1.Soup or welcome drink","2.Vegetable dish","1.Dal","1.Sweet Dish","1.Rice","Roti,Naan","Butter Paratha","Pickle, Salad, Papad"};
+    // String selectedItem2[]={"1.Soup or welcome drink","2.Vegetable dish","1.Paneer dish","1.Dal","1.Sweet Dish or ice-cream","1.Rice","Roti,Butter Naan,Butter paratha","Butter Paratha","Pickle, Salad, Papad"};
+    // String selectedItem3[]={"1.Soup or welcome drink","1.Starter","2.Vegetable dish","Curd dish","1.Paneer dish","1.Dal","1.Sweet Dish or ice-cream","1.Rice","Roti,Butter Naan,Butter paratha","Butter Paratha","Pickle, Salad, Papad"};
+    // String selectedItem4[]={"1.Soup or welcome drink","2.Vegetable dish","1.Paneer dish","1.Dal","1.Sweet Dish or ice-cream","Rice","Roti,Butter Naan,Butter paratha","Butter Paratha","Pickle, Salad, Papad"};
+    // String selectedItem5[]={"1. Soup or Welcome Drink","1. Starter","1. Paneer Starter","1. Pasta (1 Type)","1. Paneer Dish","2. Vegetable Dish","1. Curd Dish","1. Dal","1. Rice","Roti, Naan, Paratha","Pickle, Salad, Papad","1. Sweet Dish","1. Ice-cream or Coffee"};
+    // String selectedItem1[]={};
+
     // ---------------- VEGETARIAN THALI ----------------
     String thali[] = {"Special Thali 1", "Special Thali 2", "Special Thali 3", "Special Thali 4", "Special Thali 5", "Special Thali 6"};
     double thaliPrice[] = {310, 360, 410, 470, 600, 700};
@@ -80,18 +91,57 @@ class JMB {
             System.out.printf("%d. %-20s %10.2f\n", (i+1), thali[i], thaliPrice[i]);
         }
     }
-    void vegetableA(){ String item[]={"1.Soup or welcome drink","2.Vegetable dish","1.Dal","1.Sweet Dish","Rice","Roti,Naan","Butter Paratha","Pickle, Salad, Papad"}; System.out.println("Group A Food items"); for(String food:item) System.out.println(food); } void vegetableB(){ String item[]={"1.Soup or welcome drink","2.Vegetable dish","1.Paneer dish","1.Dal","1.Sweet Dish or ice-cream","Rice","Roti,Butter Naan,Butter paratha","Butter Paratha","Pickle, Salad, Papad"}; System.out.println("Group B Food items"); for(String food:item) System.out.println(food); } void vegetableC(){ String item[]={"1.Soup or welcome drink","1.Starter","2.Vegetable dish","Curd dish","1.Paneer dish","1.Dal","1.Sweet Dish or ice-cream","Rice","Roti,Butter Naan,Butter paratha","Butter Paratha","Pickle, Salad, Papad"}; System.out.println("Group C Food items"); for(String food:item) System.out.println(food); } void vegetableD(){ String item[]={"1.Soup or welcome drink","2.Vegetable dish","1.Paneer dish","1.Dal","1.Sweet Dish or ice-cream","Rice","Roti,Butter Naan,Butter paratha","Butter Paratha","Pickle, Salad, Papad"}; System.out.println("Group D Food items"); for(String food:item) System.out.println(food); }
+    void vegetableA(){ 
+        String item[]={"1.Soup or welcome drink","2.Vegetable dish","1.Dal","1.Sweet Dish","1.Rice","Roti,Naan","Butter Paratha","Pickle, Salad, Papad"};
+        System.out.println(RESET+BOLD + MAROON + "\nGroup A Food Items (Rs. 310/-)" + RESET+BG+BLACK);
+        for(String food:item)
+        System.out.println(food);
+    }
+     void vegetableB(){
+        String item[]={"1.Soup or welcome drink","2.Vegetable dish","1.Paneer dish","1.Dal","1.Sweet Dish or ice-cream","1.Rice","Roti,Butter Naan,Butter paratha","Butter Paratha","Pickle, Salad, Papad"};
+        System.out.println(RESET+BOLD + MAROON + "\nGroup B Food Items (Rs. 370/-)" + RESET+BG+BLACK);
+        for(String food:item)
+        System.out.println(food);
+    }
+     void vegetableC(){
+        String item[]={"1.Soup or welcome drink","1.Starter","2.Vegetable dish","Curd dish","1.Paneer dish","1.Dal","1.Sweet Dish or ice-cream","1.Rice","Roti,Butter Naan,Butter paratha","Butter Paratha","Pickle, Salad, Papad"};
+        System.out.println(RESET+BOLD + MAROON + "\nGroup C Food Items (Rs. 410/-)" + RESET+BG+BLACK);
+        for(String food:item) 
+        System.out.println(food); 
+    } 
+    void vegetableD(){
+            String item[]={"1.Soup or welcome drink","2.Vegetable dish","1.Paneer dish","1.Dal","1.Sweet Dish or ice-cream","Rice","Roti,Butter Naan,Butter paratha","Butter Paratha","Pickle, Salad, Papad"};
+            System.out.println(RESET+BOLD + MAROON + "\nGroup D Food Items (Rs. 470/-)" + RESET+BG+BLACK);
+            for(String food:item)
+            System.out.println(food);
+    }
+    void vegetableE() {
+    String items[] = {"1. Soup or Welcome Drink","1. Starter","1. Paneer Starter","1. Pasta (1 Type)","1. Paneer Dish","2. Vegetable Dish","1. Curd Dish","1. Dal","1. Rice","Roti, Naan, Paratha","Pickle, Salad, Papad","1. Sweet Dish","1. Ice-cream or Coffee"};
+    System.out.println(RESET+BOLD + MAROON + "\nGroup E Food Items (Rs. 600/-)" + RESET+BG+BLACK);
+    for (String food : items) 
+        System.out.println(food);
     
-    void vegetableType(int thaliChoice){
+    }
+    void vegetableF() {
+    String items[] = {"1. Welcome Drink","2. Soup","3. Starter","1. Paneer Starter","1. Chinese Item","1. Paneer Dish","2. Vegetable Dish","1. Curd Dish","1. Dal","1. Rice","Roti, Naan, Paratha","Pickle, Salad, Papad","2. Sweet Dish","1. Ice-cream"};
+    System.out.println(RESET+BOLD + MAROON + "\nGroup F Food Items (Rs. 700/-)" + RESET+BG+BLACK);
+    for (String food : items) {
+        System.out.println(food);
+    }
+    }   
+void vegetableType(int thaliChoice){
         System.out.println("Ordered Item Full list");
         switch(thaliChoice){
-            case 1:vegetableA();soupOrDrink();allVegitable();break;
-            case 2:vegetableB();soupOrDrink();break;
-            case 3:vegetableC();soupOrDrink();break;
-            case 4:vegetableD();soupOrDrink();break;
-            default:System.out.println("Invalid choice");
+            case 1:vegetableA();soupOrDrink();allVegitable();dalList();sweetsList();riceList();break;
+            case 2:vegetableB();soupOrDrink();allVegitable();paneerOrder();dalList();sweetsList();riceList();break;
+            case 3:soupOrDrink();starterList();allVegitable();curdOrder();paneerOrder();dalList();sweetsList();riceList();break;
+            case 4:vegetableD();soupOrDrink();starterList();allVegitable();curdOrder();paneerOrder();dalList();sweetsList();riceList();break;
+            case 5:vegetableE();soupOrDrink();starterList();allVegitable();;pastaList();curdOrder();paneerStarterOrder();paneerOrder();dalList();sweetsList();riceList();coffeeList();break;
+            case 6:vegetableF();break;
+            
+            default:System.out.println(RED+"Invalid choice"+BG);
         }
-    }
+}
     
     void orderThali() {
         System.out.println("Enter item number to order (0 to skip):");
@@ -130,7 +180,7 @@ class JMB {
             case 'A':breakfastA();break;
             case 'B':breakfastB();break;
             case 'C':breakfastC();break;
-            default:System.out.println("Invalid choice");
+            default:System.out.println(RED+"Invalid choice"+BG);
             // case 'B':breakfastB();break;
         }
     }
@@ -238,7 +288,7 @@ class JMB {
         if (choice == 0) return;
 
         if (choice < 1 || choice > paneerStarter.length) {
-        System.out.println("Invalid choice. Please try again.");
+        System.out.println(RED+"Invalid choice. Please try again."+BG);
         return;
          }
 
@@ -274,7 +324,7 @@ class JMB {
         if (choice == 0) return;
 
         if (choice < 1 || choice > paneerDish.length) {
-        System.out.println("Invalid choice. Please try again.");
+        System.out.println(RED+"Invalid choice. Please try again."+BG);
         return;
          }
 
@@ -309,7 +359,7 @@ class JMB {
         if (choice == 0) return;
 
         if (choice < 1 || choice > curd.length) {
-        System.out.println("Invalid choice. Please try again.");
+        System.out.println(RED+"Invalid choice. Please try again."+BG);
         return;
          }
 
@@ -328,10 +378,10 @@ class JMB {
 
     // ---------------- SWEETS ----------------
     String sweet[] = {"Gulab Jamun", "Gajar Ka Halwa", "Aam Khand", "Vanilla",
-                      "Moong Ka Halwa", "Butter Scotch", "Shreekhand", "Sitaphal Basundi"};
+                      "Moong Ka Halwa", "Shreekhand", "Sitaphal Basundi"};
     double sweetPrice[] = {80, 100, 120, 90, 110, 130, 140, 150};
     void sweetsOrIceCream() {
-        System.out.println(RESET+BOLD + MAROON + "\n=== SWEETS & ICE-CREAM ===" + RESET+BG+BLACK);
+        System.out.println(RESET+BOLD + MAROON + "\n=== SWEETS LIST ===" + RESET+BG+BLACK);
         for (int i = 0; i < sweet.length; i++) {
             System.out.printf("%d. %-25s %10.2f\n", (i+1), sweet[i], sweetPrice[i]);
         }
@@ -344,7 +394,7 @@ class JMB {
         if (choice == 0) return;
 
         if (choice < 1 || choice > sweet.length) {
-        System.out.println("Invalid choice. Please try again.");
+        System.out.println(RED+"Invalid choice. Please try again."+BG);
         return;
          }
 
@@ -406,20 +456,26 @@ class JMB {
         System.out.println(BOLD + MAROON + "\t\t========== 😎 THANK YOU VISIT AGAIN 😇! ==========" + RESET);
         System.out.println(RESET);
     }
+
+
+    // ---------------- Thali Method ----------
     void welcomeDrink(){
         String drink[]={"Fanta","Mazza","Coke-cola"};
-        System.out.println(RESET+BOLD + MAROON + "WELCOME DRINK"+RESET+BG+BLACK);
+        System.out.println(RESET+BOLD + MAROON + "===== WELCOME DRINK ====="+RESET+BG+BLACK);
         for(int i=0;i<drink.length;i++){
             System.out.println((i+1)+". "+drink[i]);
         }
+        int ch;
+        do{
         System.out.println(RESET+BOLD + MAROON + "Enter a choice "+RESET+BG+BLACK);
-        int ch=inp.nextInt();
+        ch=inp.nextInt();
         switch(ch){
-            case 1:System.out.println(MAGENTA+"You Selected "+drink[ch-1]+BG);break;
-            case 2:System.out.println(MAGENTA+"You Selected "+drink[ch-1]+BG);break;
+            case 1:
+            case 2:
             case 3:System.out.println(MAGENTA+"You Selected "+drink[ch-1]+BG);break;
-            default:System.out.println(MAGENTA+"Invalid choice"+BG);
+            default:System.out.println(RED+"Invalid choice"+BG);
         }
+        }while(ch<0 || ch>3);
     }
     void soupOrDrink(){
         int sd;
@@ -428,15 +484,18 @@ class JMB {
         sd=inp.nextInt();
         switch(sd){
                 case 1:soupMenu();
+                int ch;
+                do{
                 System.out.println(RESET+BOLD + MAROON + "Enter a choice "+RESET+BG+BLACK);
-                int ch=inp.nextInt();
+                ch=inp.nextInt();
         switch(ch){
-            case 1:System.out.println(MAGENTA+"You Selected "+soup[ch-1]+BG);break;
-            case 2:System.out.println(MAGENTA+"You Selected "+soup[ch-1]+BG);break;
-            case 3:System.out.println(MAGENTA+"You Selected "+soup[ch-1]+BG);break;
+            case 1:
+            case 2:
+            case 3:
             case 4:System.out.println(MAGENTA+"You Selected "+soup[ch-1]+BG);break;
-            default:System.out.println(MAGENTA+"Invalid choice"+BG);
+            default:System.out.println(RED+"Invalid choice"+BG);
           }
+        }while(ch<0 || ch>4);
           return;
         case 2:welcomeDrink();return;
         default:System.out.println(MAGENTA+"Re-enter Item"+BG);
@@ -445,27 +504,246 @@ class JMB {
     }
     void allVegitable(){
         String[] veg = {"Veg Kolhapuri", "Veg Jalfrezi", "Veg Kadai", "Vegetable Pulao", "Dal Tadka", "Dal Makhani", "Chana Masala", "Rajma Masala", "Mix Veg Curry", "Aloo Gobi", "Aloo Matar", "Baingan Bharta", "Bhindi Masala", "Stuffed Capsicum", "Tandoori Aloo", "Veg Biryani", "Dum Aloo", "Lauki Kofta", "Malai Kofta", "Kadhi Pakora", "Palak Corn", "Methi Malai Matar", "Vegetable Stew", "Vegetable Hakka Noodles", "Vegetable Manchurian", "Gobi 65", "Tinda Masala", "Arbi Masala", "Kundru Fry", "Sambar"};
-        System.out.println(RESET+BOLD + MAROON + "\n=== LISt OF VEGITABLE ===" + RESET+BG+BLACK);
+        System.out.println(RESET+BOLD + MAROON + "\n===== LIST OF VEGITABLES =====" + RESET+BG+BLACK);
         for(int i=0;i<veg.length;i++){
             System.out.println((i+1)+". "+veg[i]);
         }
-
+        int v1,v2;
+        do{
         System.out.println(RESET+BOLD + MAROON + "Enter 1 vegitable "+RESET+BG+BLACK);
-        int v1=inp.nextInt();
+        v1=inp.nextInt();
         if(v1<=veg.length)
         System.out.println(MAGENTA+"You Selected "+veg[v1-1]+BG);
         else
-        System.out.println(MAGENTA+"Invalid choice"+BG);
+        System.out.println(RED+"Invalid choice"+BG);
+        }while(v1<0 || v1>30);
+        do{
         System.out.println(RESET+BOLD + MAROON + "Enter 2 vegitable "+RESET+BG+BLACK);
-        int v2=inp.nextInt();
+        v2=inp.nextInt();
         if(v1==v2){
             System.out.println("Select another one vegitable");
             v2=inp.nextInt();
-          if(v2<=veg.length){
-          System.out.println(MAGENTA+"You Selected "+veg[v2-1]+BG);
         }
+        if(v2<=veg.length){
+          System.out.println(MAGENTA+"You Selected "+veg[v2-1]+BG);
         }else
-        System.out.println(MAGENTA+"Invalid choice"+BG);
+        System.out.println(RED+"Invalid choice"+BG);
+        }while(v2<0||v2>30|| v1==v2);
     }
-    
+    void dalList(){
+        int ch;
+       String[] dal = {"Dal Makhani", "Tadka Dal", "Dal Fry", "Chana Dal", "Moong Dal", "Panchmel Dal", "Masoor Dal", "Dal Tadka with Butter", "Dal Bukhara", "Dal Palak"};
+        System.out.println(RESET+BOLD + MAROON + "===== DAL LIST ====="+RESET+BG+BLACK);
+        for(int i=0;i<dal.length;i++){
+            System.out.println((i+1)+". "+dal[i]);
+        }
+        do{
+        System.out.println(RESET+BOLD + MAROON + "Enter a choice number "+RESET+BG+BLACK);
+        ch=inp.nextInt();
+        switch(ch){
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:System.out.println(MAGENTA+"You Selected "+dal[ch-1]+BG);break;
+            default:System.out.println(RED+"Invalid choice"+BG);
+        }
+        }while(ch<0 || ch>10);
+    }
+    void iceCreamList(){
+        int ch;
+        String[] iceCream = {"Vanilla", "Chocolate", "Strawberry", "Mango", "Butterscotch"};
+        System.out.println(RESET+BOLD + MAROON + "===== Ice-Cream LIST ====="+RESET+BG+BLACK);
+        for(int i=0;i<iceCream.length;i++){
+            System.out.println((i+1)+". "+iceCream[i]);
+        }
+        do{
+        System.out.println(RESET+BOLD + MAROON + "Enter a choice number "+RESET+BG+BLACK);
+        ch=inp.nextInt();
+        switch(ch){
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:System.out.println(MAGENTA+"You Selected "+iceCream[ch-1]+BG);break;
+            default:System.out.println(RED+"Invalid choice"+BG);
+        }
+        }while(ch<0 || ch>5);
+    }
+    void riceList(){ 
+        int ch;
+        String[] rice = {"Basmati Rice", "Jeera Rice", "Fried Rice", "Saffron Rice", "Lemon Rice"};
+        System.out.println(RESET+BOLD + MAROON + "===== RICE LIST ====="+RESET+BG+BLACK);
+        for(int i=0;i<rice.length;i++){
+            System.out.println((i+1)+". "+rice[i]);
+        }
+        do{
+        System.out.println(RESET+BOLD + MAROON + "Enter a choice number "+RESET+BG+BLACK);
+        ch=inp.nextInt();
+        switch(ch){
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:System.out.println(MAGENTA+"You Selected "+rice[ch-1]+BG);break;
+            default:System.out.println(RED+"Invalid choice"+BG);
+        }
+        }while(ch<0 || ch>5);
+    }
+    void pastaList(){
+        int ch;
+        String[] pasta = {"White Sauce Pasta", "Red Sauce Pasta", "Cheese Pasta", "Veggie Pasta", "Macaroni Pasta", "Penne Pasta", "Garlic Butter Pasta", "Masala Pasta", "Herb Pasta"};
+        System.out.println(RESET+BOLD + MAROON + "===== PASTA LIST ====="+RESET+BG+BLACK);
+        for(int i=0;i<pasta.length;i++){
+            System.out.println((i+1)+". "+pasta[i]);
+        }
+        do{
+        System.out.println(RESET+BOLD + MAROON + "Enter a choice number "+RESET+BG+BLACK);
+        ch=inp.nextInt();
+        switch(ch){
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:System.out.println(MAGENTA+"You Selected "+pasta[ch-1]+BG);break;
+            default:System.out.println(RED+"Invalid choice"+BG);
+        }
+        }while(ch<0 || ch>9);
+    }
+    void coffeeList(){
+        int ch;
+        String[] coffee = {"Espresso", "Cappuccino", "Latte", "Americano", "Mocha", "Macchiato", "Irish Coffee", "Cold Coffee"};
+        System.out.println(RESET+BOLD + MAROON + "===== COFFEE LIST ====="+RESET+BG+BLACK);
+        for(int i=0;i<coffee.length;i++){
+            System.out.println((i+1)+". "+coffee[i]);
+        }
+        do{
+        System.out.println(RESET+BOLD + MAROON + "Enter a choice number "+RESET+BG+BLACK);
+        ch=inp.nextInt();
+
+        switch(ch){
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:System.out.println(MAGENTA+"You Selected "+coffee[ch-1]+BG);break;
+            default:System.out.println(RED+"Invalid choice"+BG);
+        }
+        }while(ch<0 || ch>8);
+    }
+    void starterList(){
+        int ch;
+        String[] starter = {"Spring Rolls", "Momos","French fries", "Cheese Balls", "Bruschetta","Veg lollipop","Noodles"};
+        System.out.println(RESET+BOLD + MAROON + "===== STARTER LIST ====="+RESET+BG+BLACK);
+        for(int i=0;i<starter.length;i++){
+            System.out.println((i+1)+". "+starter[i]);
+        }
+        do{
+        System.out.println(RESET+BOLD + MAROON + "Enter a choice number "+RESET+BG+BLACK);
+        ch=inp.nextInt();
+        switch(ch){
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:System.out.println(MAGENTA+"You Selected "+starter[ch-1]+BG);break;
+            default:System.out.println(RED+"Invalid choice"+BG);
+        }
+        }while(ch<0 || ch>7);
+    }
+    void curdOrder(){
+        curdDishes();
+        int ch;
+        do{
+        System.out.println(RESET+BOLD + MAROON + "Enter a choice number "+RESET+BG+BLACK);
+        ch=inp.nextInt();
+        switch(ch){
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:System.out.println(MAGENTA+"You Selected "+curd[ch-1]+BG);break;
+            default:System.out.println(RED+"Invalid choice"+BG);
+        }
+        }while(ch<0 || ch>7);
+    }
+    void paneerOrder(){
+        System.out.println(RESET+BOLD + MAROON + "===== PANEER DISH LIST =====" + RESET+BG+BLACK);
+        for(int i=0;i<paneerDish.length;i++)
+        System.out.println((i+1)+". "+paneerDish[i]);
+        int ch;
+        System.out.println(RESET+BOLD + MAROON + "Enter a choice number "+RESET+BG+BLACK);
+        ch=inp.nextInt();
+        do{
+        switch(ch){
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+            case 11:System.out.println(MAGENTA+"You Selected "+paneerDish[ch-1]+BG);break;
+            default:System.out.println(RED+"Invalid choice"+BG);
+        }
+        }while(ch<0 || ch>11);
+    }
+    void paneerStarterOrder(){
+        System.out.println(RESET+BOLD + MAROON + "===== PANEER STARTER LIST =====" + RESET+BG+BLACK);
+        for(int i=0;i<paneerStarter.length;i++)
+        System.out.println((i+1)+". "+paneerStarter[i]);
+        int ch;
+        do{
+        System.out.println(RESET+BOLD + MAROON + "Enter a choice number "+RESET+BG+BLACK);
+        ch=inp.nextInt();
+        switch(ch){
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:System.out.println(MAGENTA+"You Selected "+paneerStarter[ch-1]+BG);break;
+            default:System.out.println(RED+"Invalid choice"+BG);
+        }
+        }while(ch<0 || ch>6);
+    }
+    void sweetsList(){
+        System.out.println(RESET+BOLD + MAROON + "===== SWEETS LIST =====" + RESET+BG+BLACK);
+        for(int i=0;i<sweet.length;i++)
+        System.out.println((i+1)+". "+sweet[i]);
+        int ch;
+        do{
+        System.out.println(RESET+BOLD + MAROON + "Enter a choice number "+RESET+BG+BLACK);
+        ch=inp.nextInt();
+        switch(ch){
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:System.out.println(MAGENTA+"You Selected "+sweet[ch-1]+BG);break;
+            default:System.out.println(RED+"Invalid choice"+BG);
+        }
+        }while(ch<0 || ch>7);
+    }
 }
