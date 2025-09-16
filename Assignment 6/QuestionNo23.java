@@ -19,10 +19,13 @@ class Main {
     static final String GREEN = "\u001B[32m";
     static final String RED = "\u001B[31m";
     static final String YELLOW = "\u001B[33m";
+    static final String BG = "\u001b[48;2;255;218;185m";
+    static final String BLACK = "\u001B[30m";
 
     static void clearScreen() {
         for (int i = 0; i < 50; i++) System.out.println();
     }
+    
 
     static void addTransaction(String msg) {
         if (transactionCount < transactions.length) {
@@ -32,9 +35,9 @@ class Main {
 
     static void registerUser() {
         clearScreen();
-        System.out.println(CYAN + "===== User Registration =====" + RESET);
-        do{
+        System.out.println(BG+CYAN + "===== User Registration =====" + RESET+BG+BLACK);
             System.out.print("Enter Full Name: ");
+        do{
             fullName = sc.nextLine();
         }while(!fullName.matches("[a-zA-Z]+"));
 
@@ -58,21 +61,25 @@ class Main {
             System.out.print("Enter Password: ");
             password = sc.nextLine();
         }
-        System.out.println(GREEN + "Registration successful!" + RESET);
+        System.out.println(GREEN + "Registration successful!" + RESET+BG+BLACK);
     }
 
     static void openAccount() {
     clearScreen();
-    System.out.println(YELLOW + "===== WELCOME YOU IN BHAICHARA BANK =====" + RESET);
-    System.out.println(YELLOW + "        ===== Open Account =====" + RESET);
+    int ch;
+    System.out.println(YELLOW +BG +"===== WELCOME YOU IN BHAICHARA BANK =====" +BLACK);
+    System.out.println(YELLOW + "        ===== Open Account =====" + RESET+BG+BLACK);
     System.out.println("1. Joint Account");
     System.out.println("2. Saving Account");
     System.out.println("3. Child Account");
-    System.out.println("Enter choice: ");
-    int ch = sc.nextInt();
+    
     // System.out.println();
     balance = 0.0;
     accountType = "";
+    do{
+    System.out.println("Enter choice: ");
+    ch = sc.nextInt();
+    }while(ch<=0 || ch>3);
     registerUser();
     switch (ch) {
         case 1:
@@ -95,7 +102,7 @@ class Main {
 
             accountType = "Joint";
             addTransaction("Opened Joint Account with " + balance);
-            System.out.println(GREEN + "Joint Account created!" + RESET);
+            System.out.println(GREEN + "Joint Account created!" + RESET+BG+BLACK);
             break;
 
         case 2:
@@ -118,7 +125,7 @@ class Main {
 
             accountType = "Saving";
             addTransaction("Opened Saving Account with " + balance);
-            System.out.println(GREEN + "Saving Account created!" + RESET);
+            System.out.println(GREEN + "Saving Account created!" + RESET+BG+BLACK);
             break;
 
         case 3:
@@ -139,11 +146,11 @@ class Main {
 
             accountType = "Child";
             addTransaction("Opened Child Account with " + balance);
-            System.out.println(GREEN + "Child Account created!" + RESET);
+            System.out.println(GREEN + "Child Account created!" + RESET+BG+BLACK);
             break;
 
         default:
-            System.out.println(RED + "Invalid Choice!" + RESET);
+            System.out.println(RED + "Invalid Choice!" + RESET+BG+BLACK);
     }
     }
     static boolean verifyPassword() {
@@ -161,27 +168,27 @@ class Main {
 
     static void deposit() {
         if (accountType.equals("")) {
-            System.out.println(RED + "No account found! Open an account first." + RESET);
+            System.out.println(RED + "No account found! Open an account first." + RESET+BG+BLACK);
             return;
         }
         if (!verifyPassword()) {
-            System.out.println(RED + "Wrong Password!" + RESET);
+            System.out.println(RED + "Wrong Password!" + RESET+BG+BLACK);
             return;
         }
         System.out.println("Enter Amount: ");
         double amt = sc.nextDouble();
         balance += amt;
         addTransaction("Deposited " + amt + " in " + accountType + " Account");
-        System.out.println(GREEN + "Deposit Successful!" + RESET);
+        System.out.println(GREEN + "Deposit Successful!" + RESET+BG+BLACK);
     }
 
     static void withdraw() {
         if (accountType.equals("")) {
-            System.out.println(RED + "No account found! Open an account first." + RESET);
+            System.out.println(RED + "No account found! Open an account first." + RESET+BG+BLACK);
             return;
         }
         if (!verifyPassword()) {
-            System.out.println(RED + "Wrong Password!" + RESET);
+            System.out.println(RED + "Wrong Password!" + RESET+BG+BLACK);
             return;
         }
         System.out.println("Enter Amount: ");
@@ -190,15 +197,15 @@ class Main {
         if (balance >= amt) {
             balance -= amt;
             addTransaction("Withdrew " + amt + " from " + accountType + " Account");
-            System.out.println(GREEN + "Withdrawal Successful!" + RESET);
+            System.out.println(GREEN + "Withdrawal Successful!" + RESET+BG+BLACK);
         } else {
-            System.out.println(RED + "Insufficient Balance!" + RESET);
+            System.out.println(RED + "Insufficient Balance!" + RESET+BG+BLACK);
         }
     }
 
     static void displayDetails() {
         clearScreen();
-        System.out.println(CYAN + "===== Account Details =====" + RESET);
+        System.out.println(CYAN + "===== Account Details =====" + RESET+BG+BLACK);
         System.out.println("Name: " + fullName);
         System.out.println("Email: " + email);
         System.out.println("Age: " + age);
@@ -215,7 +222,7 @@ class Main {
 
     static void deactivateAccount() {
         clearScreen();
-        System.out.println(RED + "Account Deactivated!" + RESET);
+        System.out.println(RED + "Account Deactivated!" + RESET+BG+BLACK);
         active = false;
     }
 
@@ -223,7 +230,7 @@ class Main {
         openAccount();
         while (active) {
             clearScreen();
-            System.out.println(YELLOW + "===== Banking Menu =====" + RESET);
+            System.out.println(YELLOW + "===== Banking Menu =====" + RESET+BG+BLACK);
             // System.out.println("1.");
             System.out.println("1. Deposit");
             System.out.println("2. Withdraw");
@@ -247,6 +254,6 @@ class Main {
                 sc.nextLine();
             }
         }
-        System.out.println(GREEN + "Thank you for using Banking System!" + RESET);
+        System.out.println(GREEN + "Thank you for using Banking System!" + RESET+BG+BLACK);
     }
 }
