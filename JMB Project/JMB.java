@@ -4,6 +4,10 @@ import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
+import java.time.ZoneId;
+
 
 class Main {
     public static Scanner inp = new Scanner(System.in);
@@ -14,6 +18,10 @@ class Main {
     public static final String MAROON = "\u001B[48;5;52m";
     public static final String BG = "\u001B[47m";
     public static final String BLACK = "\u001B[30m";
+    public static String RED = "\u001B[41m";
+
+    static ZonedDateTime nowInIndia = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
+    static int hour = nowInIndia.getHour(); 
 
 
     public static void main(String[] args) {
@@ -27,28 +35,21 @@ class Main {
             System.out.println(RESET+BOLD + MAROON+"\n ===== Enter Your Choice ====="+RESET+BG+BLACK);
             System.out.println("1.VEGETARIAN THALI MENU");
             System.out.println("2.BREAKFAST MENU");
-            System.out.println("3.SOUP MENU");
-            System.out.println("4.MOCKTAIL MENU");
-            System.out.println("5.PANEER STARTERS");
-            System.out.println("6.PANEER DISHES");
-            System.out.println("7.CURD DISHES");
-            System.out.println("8.SWEETS & ICE-CREAM");
-            System.out.println("9.View Bill & Exit");
+            System.out.println("3.MOCKTAIL MENU");
+            System.out.println("4.Only For Ladies");
+            System.out.println("5.View Bill & Exit");
 
             ch = inp.nextInt();
             switch (ch) {
                 case 1: j.vegetarianThali(); j.orderThali(); break;
                 case 2: j.breakfastMenu(); j.orderBreakfast(); break;
-                case 3: j.soupMenu(); j.orderSoup(); break;
-                case 4: j.mocktail(); j.orderMocktail(); break;
-                case 5: j.paneerStarters(); j.orderPaneerStarter(); break;
-                case 6: j.paneerDishes(); j.orderPaneerDish(); break;
-                case 7: j.curdDishes(); j.orderCurd(); break;
-                case 8: j.sweetsOrIceCream(); j.orderSweet(); break;
-                case 9: j.displayBill(); break;
-                default: System.out.println("Invalid choice");
+                case 3:j.mocktail(); j.orderMocktail(); break;
+                case 4: if(hour>=16 && hour<=19){j.ladiesMenu();j.orderLadiesItems();}else System.out.println(RED+"Currently Service is Not available"+BG);break;
+                case 5: j.displayBill(); break;
+                default:System.out.println(RED+"Invalid choice"+BG);
+
             }
-        } while (ch != 9);
+        } while (ch != 5);
     }
 }
 
@@ -70,7 +71,7 @@ class JMB {
     String name;
     int guest;
     int currGuest;
-    long mob;
+    String mob;
     String date;
     String billno="JMB"+String.valueOf((int)(Math.random()*10000));
     // Order storage
@@ -79,9 +80,16 @@ class JMB {
     int orderedQty[] = new int[100];
     int orderCount = 0;
     double total = 0;
-    String pattern = "dd-MM-yyyy";
+    //Date
+    LocalDate enteredDate = null;
+    LocalDate currentDate = LocalDate.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    // //--------------- SELECTED THALI --------------
+    //Regex code
+    String nameRegex ="^[A-Za-z' -]{1,40}$";
+    String mobileRegex = "^(?:\\+91|0)?[6-9]\\d{9}$"; 
+
+    //--------------- SELECTED THALI --------------
 
     String selectedItem1[]={"1.Soup or welcome drink","2.Vegetable dish"," ","1.Dal","1.Sweet Dish","1.Rice"};
     String selectedItem2[]={"1.Soup or welcome drink","2.Vegetable dish"," ","1.Dal","1.Sweet Dish or ice-cream","1.Rice","1.Paneer dish"};
@@ -89,6 +97,17 @@ class JMB {
     String selectedItem4[]={"1.Soup or welcome drink","2.Vegetable dish"," ","1.Dal","1.Sweet Dish or ice-cream","1.Rice","1.Paneer dish","1.Starter","Curd dish"};
     String selectedItem5[]={"1.Soup or welcome drink","2.Vegetable dish"," ","1.Dal","1.Sweet Dish or ice-cream","1.Rice","1.Paneer dish","1.Starter","Curd dish","1. Paneer Starter","1. Pasta (1 Type)","1. Ice-cream or Coffee"};
     String selectedItem6[]={"1.Soup or welcome drink","2.Vegetable dish"," ","1.Dal","1.Sweet Dish or ice-cream","1.Rice","1.Paneer dish","1.Starter","Curd dish","1. Paneer Starter","1. Pasta (1 Type)","1. Ice-cream or Coffee",""};
+
+    //--------------- SELECTED Breakfast --------------
+    String typeA[]={"Poha","Jalebi","Bread item","1.Tea or coffee"};
+    String typeB[]={"Poha","Jalebi","Bread item","1.Tea or coffee","1.Heavy snacks"};
+    String typeC[]={"Poha","Jalebi","Bread item","1.Tea or coffee","2.Heavy snacks",""};
+
+    // ---------------- SELECTED TYPE ----------------
+    String itemA[]={"1.Soup or welcome drink","1.Sweet Dish","1 Starter","1.Tea or coffee","1.Heavy snacks"};
+    String itemB[]={"1.Soup or welcome drink","1.Sweet Dish","1 Starter","1.Tea or coffee","2.Heavy snacks",""};
+    String itemC[]={"1.Soup or welcome drink","1.Sweet Dish","1 Starter","1.Tea or coffee","2.Heavy snacks","","1 Paneer Starter"};
+
 
     // ---------------- VEGETARIAN THALI ----------------
     String thali[] = {"Special Thali 1", "Special Thali 2", "Special Thali 3", "Special Thali 4", "Special Thali 5", "Special Thali 6"};
@@ -99,38 +118,38 @@ class JMB {
             System.out.printf("%d. %-20s %10.2f\n", (i+1), thali[i], thaliPrice[i]);
         }
     }
-    void vegetableA(){ 
+void vegetableA(){ 
         String item[]={"1.Soup or welcome drink","2.Vegetable dish","1.Dal","1.Sweet Dish","1.Rice","Roti,Naan","Butter Paratha","Pickle, Salad, Papad"};
         System.out.println(RESET+BOLD + MAROON + "\nGroup A Food Items (Rs. 310/-)" + RESET+BG+BLACK);
         for(String food:item)
         System.out.println(food);
     }
-     void vegetableB(){
+void vegetableB(){
         String item[]={"1.Soup or welcome drink","2.Vegetable dish","1.Paneer dish","1.Dal","1.Sweet Dish or ice-cream","1.Rice","Roti,Butter Naan,Butter paratha","Butter Paratha","Pickle, Salad, Papad"};
         System.out.println(RESET+BOLD + MAROON + "\nGroup B Food Items (Rs. 370/-)" + RESET+BG+BLACK);
         for(String food:item)
         System.out.println(food);
     }
-     void vegetableC(){
+void vegetableC(){
         String item[]={"1.Soup or welcome drink","1.Starter","2.Vegetable dish","Curd dish","1.Paneer dish","1.Dal","1.Sweet Dish or ice-cream","1.Rice","Roti,Butter Naan,Butter paratha","Butter Paratha","Pickle, Salad, Papad"};
         System.out.println(RESET+BOLD + MAROON + "\nGroup C Food Items (Rs. 410/-)" + RESET+BG+BLACK);
         for(String food:item) 
         System.out.println(food); 
     } 
-    void vegetableD(){
+void vegetableD(){
             String item[]={"1.Soup or welcome drink","2.Vegetable dish","1.Paneer dish","1.Dal","1.Sweet Dish or ice-cream","Rice","Roti,Butter Naan,Butter paratha","Butter Paratha","Pickle, Salad, Papad"};
             System.out.println(RESET+BOLD + MAROON + "\nGroup D Food Items (Rs. 470/-)" + RESET+BG+BLACK);
             for(String food:item)
             System.out.println(food);
     }
-    void vegetableE() {
+void vegetableE() {
     String items[] = {"1. Soup or Welcome Drink","1. Starter","1. Paneer Starter","1. Pasta (1 Type)","1. Paneer Dish","2. Vegetable Dish","1. Curd Dish","1. Dal","1. Rice","Roti, Naan, Paratha","Pickle, Salad, Papad","1. Sweet Dish","1. Ice-cream or Coffee"};
     System.out.println(RESET+BOLD + MAROON + "\nGroup E Food Items (Rs. 600/-)" + RESET+BG+BLACK);
     for (String food : items) 
         System.out.println(food);
     
     }
-    void vegetableF() {
+void vegetableF() {
     String items[] = {"1. Welcome Drink","2. Soup","3. Starter","1. Paneer Starter","1. Chinese Item","1. Paneer Dish","2. Vegetable Dish","1. Curd Dish","1. Dal","1. Rice","Roti, Naan, Paratha","Pickle, Salad, Papad","2. Sweet Dish","1. Ice-cream"};
     System.out.println(RESET+BOLD + MAROON + "\nGroup F Food Items (Rs. 700/-)" + RESET+BG+BLACK);
     for (String food : items) {
@@ -138,15 +157,14 @@ class JMB {
     }
     }   
 void vegetableType(int thaliChoice){
-        System.out.println("Ordered Item Full list");
+             System.out.println(RESET+BOLD + MAROON + "Ordered Item Full list" + RESET+BG+BLACK);
         switch(thaliChoice){
-            case 1:vegetableA();soupOrDrink(selectedItem1);allVegitable(selectedItem1);dalList(selectedItem1);sweetsList(selectedItem1);riceList(selectedItem1);dis(selectedItem1);break;
-            case 2:vegetableB();soupOrDrink(selectedItem2);allVegitable(selectedItem2);paneerOrder(selectedItem2);dalList(selectedItem2);sweetsList(selectedItem2);riceList(selectedItem2);dis(selectedItem2);break;
-            case 3:vegetableC();soupOrDrink(selectedItem3);starterList(selectedItem3);allVegitable(selectedItem3);curdOrder(selectedItem3);paneerOrder(selectedItem3);dalList(selectedItem3);sweetsList(selectedItem3);riceList(selectedItem3);dis(selectedItem3);break;
-            case 4:vegetableD();soupOrDrink(selectedItem4);starterList(selectedItem4);allVegitable(selectedItem4);curdOrder(selectedItem4);paneerOrder(selectedItem4);dalList(selectedItem4);sweetsList(selectedItem4);riceList(selectedItem4);dis(selectedItem4);break;
-            case 5:vegetableE();soupOrDrink(selectedItem5);starterList(selectedItem5);allVegitable(selectedItem5);pastaList(selectedItem5);curdOrder(selectedItem5);paneerStarterOrder(selectedItem5);paneerOrder(selectedItem5);dalList(selectedItem5);sweetsList(selectedItem5);riceList(selectedItem5);coffeeList(selectedItem5);dis(selectedItem5);break;
-            case 6:vegetableF();soupSpecial();welcomeDrink(selectedItem6);starterSpecial(selectedItem6);paneerStarterOrder(selectedItem6);chineseItems();paneerOrder(selectedItem6);allVegitable(selectedItem6);curdOrder(selectedItem6);dalList(selectedItem6);riceList(selectedItem6);sweetsList(selectedItem6);iceCreamList(selectedItem6);dis(selectedItem6);break;
-            
+            case 1:vegetableA();soupOrDrink(selectedItem1);allVegitable(selectedItem1);dalList(selectedItem1);sweetsList(selectedItem1,4);riceList(selectedItem1);dis(selectedItem1);break;
+            case 2:vegetableB();soupOrDrink(selectedItem2);allVegitable(selectedItem2);paneerOrder(selectedItem2);dalList(selectedItem2);sweetsList(selectedItem2,4);riceList(selectedItem2);dis(selectedItem2);break;
+            case 3:vegetableC();soupOrDrink(selectedItem3);starterList(selectedItem3,7);allVegitable(selectedItem3);curdOrder(selectedItem3);paneerOrder(selectedItem3);dalList(selectedItem3);sweetsList(selectedItem3,4);riceList(selectedItem3);dis(selectedItem3);break;
+            case 4:vegetableD();soupOrDrink(selectedItem4);starterList(selectedItem4,7);allVegitable(selectedItem4);curdOrder(selectedItem4);paneerOrder(selectedItem4);dalList(selectedItem4);sweetsList(selectedItem4,4);riceList(selectedItem4);dis(selectedItem4);break;
+            case 5:vegetableE();soupOrDrink(selectedItem5);starterList(selectedItem5,7);allVegitable(selectedItem5);pastaList(selectedItem5);curdOrder(selectedItem5);paneerStarterOrder(selectedItem5,9);paneerOrder(selectedItem5);dalList(selectedItem5);sweetsList(selectedItem5,4);riceList(selectedItem5);coffeeList(selectedItem5,11);dis(selectedItem5);break;
+            case 6:vegetableF();soupSpecial();welcomeDrink(selectedItem6);starterSpecial(selectedItem6);paneerStarterOrder(selectedItem6,9);chineseItems();paneerOrder(selectedItem6);allVegitable(selectedItem6);curdOrder(selectedItem6);dalList(selectedItem6);riceList(selectedItem6);sweetsList(selectedItem6,4);iceCreamList(selectedItem6);dis(selectedItem6);break;
             default:System.out.println(RED+"Invalid choice"+BG);
         }
 }
@@ -155,7 +173,7 @@ void vegetableType(int thaliChoice){
         System.out.println("Enter item number to order (0 to skip):");
         int choice = inp.nextInt();
         if(choice >=1 && choice <= thali.length){
-            vegetableType(choice);
+        vegetableType(choice);
         if(orderedItems.length>=0){
         boolean isAlreadyOrdered = false;
         for (int i = 0; i <= orderCount; i++) {
@@ -174,7 +192,7 @@ void vegetableType(int thaliChoice){
     }
     
     // ---------------- BREAKFAST ----------------
-    String breakfast[] = {"Type A", "Type B", "Type C"};
+    String breakfast[] = {"Breakfast Type A", "Breakfast Type B", "Breakfast Type C"};
     double breakfastPrice[] = {200, 230, 250};
     void breakfastMenu() {
         System.out.println(RESET+BOLD + MAROON + "\n=== BREAKFAST MENU ===" + RESET+BG+BLACK);
@@ -183,17 +201,18 @@ void vegetableType(int thaliChoice){
         }
     }
     void breakfastType(char choiceBreak){
-        System.out.println("Ordered Item Full list");
+        System.out.println(RESET+BOLD + MAROON + "Ordered Item Full list" + RESET+BG+BLACK);
         switch(choiceBreak){
-            case 'A':breakfastA();break;
-            case 'B':breakfastB();break;
-            case 'C':breakfastC();break;
+            case 'A':breakfastA();teaOrCoffee(typeA);disBreak(typeA);break;
+            case 'B':breakfastB();teaOrCoffee(typeB);snacksList(typeB,4);disBreak(typeB);break;
+            case 'C':breakfastC();teaOrCoffee(typeC);snacksListC(typeC,4,5);disBreak(typeC);break;
             default:System.out.println(RED+"Invalid choice"+BG);
             // case 'B':breakfastB();break;
         }
     }
     void breakfastA(){ System.out.println("Breakfast of type A"); String items[]={"1.Poha","1.Jalebi","1.Bread item","1.Tea or coffee"}; for(String item:items){ System.out.println(item); } } void breakfastB(){ System.out.println("Breakfast of type B"); String items[]={"1.Poha","1.Jalebi","1.Bread item","1.Heavy snacks","1.Tea or coffee"}; for(String item:items){ System.out.println(item); } } void breakfastC(){ System.out.println("Breakfast of type C"); String items[]={"1.Poha","1.Jalebi","1.Bread item","2.Heavy snacks","1.Tea or coffee"}; for(String item:items){ System.out.println(item); } }
     void orderBreakfast() {
+        boolean isAlreadyOrdered = false;
         System.out.println("Enter item number to order (0 to skip):");
         int choice = inp.nextInt();
         if(choice >=1 && choice <= breakfast.length){
@@ -201,7 +220,6 @@ void vegetableType(int thaliChoice){
             breakfastType(breakChoice);
 
         if(orderedItems.length>=0){
-        boolean isAlreadyOrdered = false;
         for (int i = 0; i <= orderCount; i++) {
             if(breakfast[choice-1].equals(orderedItems[i])){
              System.out.println("\n" + MAGENTA + "Item already added" + BG);
@@ -215,7 +233,7 @@ void vegetableType(int thaliChoice){
 
       }
         }
-    }
+}
     // ---------------- SOUP ----------------
     String soup[] = {"Tomato Soup", "Veg Soup", "Hot & Sour Veg Soup", "Lemon Coriander"};
     double soupPrice[] = {50, 60, 75, 65};
@@ -225,27 +243,6 @@ void vegetableType(int thaliChoice){
             System.out.printf("%d. %-25s %10.2f\n", (i+1), soup[i], soupPrice[i]);
         }
     }
-    void orderSoup() {
-        System.out.println("Enter item number to order (0 to skip):");
-        int choice = inp.nextInt();
-        if(choice >=1 && choice <= soup.length){
-            if(orderedItems.length>=0){
-        boolean isAlreadyOrdered = false;
-        for (int i = 0; i <= orderCount; i++) {
-             if(soup[choice-1].equals(orderedItems[i])){
-                System.out.println("\n"+MAGENTA+"Item already added"+BG);
-            isAlreadyOrdered = true;
-            break;
-     }
-    }
-        if (!isAlreadyOrdered) {
-            addOrder(soup[choice-1], soupPrice[choice-1]);
-        }
-            }          
-            }
-        }
-    
-
     // ---------------- MOCKTAIL ----------------
     String mocktails[] = {"Blue Lagoon", "Blowgun Kesher Pista", "Fresh Lime Water", "Butter Milk",
                           "Orange Pink City", "Strawberry Delight", "Jal Jeera", "Rasna Water"};
@@ -276,7 +273,63 @@ void vegetableType(int thaliChoice){
             }
         
         }
+    // ---------------- ONLY FOR LADIES ----------------
+String ladies[]={"Item Type A","Item Type B","Item Type C"};
+double ladiesItemPrice[]={210,250,300};
 
+void ladiesMenu(){
+        System.out.println(RESET+BOLD + MAROON + "\n=== ONLY FOR LADIES MENU ===" + RESET+BG+BLACK);
+        for (int i = 0; i < ladies.length; i++) {
+            System.out.printf("%d. %-15s %10.2f\n", (i+1), ladies[i], ladiesItemPrice[i]);
+        }
+}
+
+void ladiesType(int choice){
+        // System.out.println(RESET+BOLD + MAROON + "Ordered Item Full list" + RESET+BG+BLACK);
+        switch(choice){
+            case 'A':itemsA();soupOrDrink(itemA);sweetsList(itemA,1);starterList(itemA,2);teaOrCoffee(itemA);snacksList(itemA,4);disBreak(itemA);break;
+            case 'B':itemsB();soupOrDrink(itemB);sweetsList(itemB,1);starterList(itemB,2);teaOrCoffee(itemB);snacksListC(itemB,4,5);disBreak(itemB);break;
+            case 'C':itemsC();soupOrDrink(itemC);sweetsList(itemC,1);starterList(itemC,2);teaOrCoffee(itemC);snacksListC(itemC,4,5);paneerStarterOrder(itemC,6);disBreak(itemC);break;
+            default:System.out.println(RED+"Invalid choice"+BG);
+        }
+    }
+void itemsA(){
+            System.out.println(RESET+BOLD + MAROON + "Item Type A  Full list" + RESET+BG+BLACK);
+            for(String item:itemA){ System.out.println(item);
+}
+}
+void itemsB(){
+            System.out.println(RESET+BOLD + MAROON + "Item Type A  Full list" + RESET+BG+BLACK);
+            for(String item:itemB){ System.out.println(item);
+}
+}
+void itemsC(){
+            System.out.println(RESET+BOLD + MAROON + "Item Type A  Full list" + RESET+BG+BLACK);
+            for(String item:itemC){ System.out.println(item);
+}}
+     void orderLadiesItems() {
+        boolean isAlreadyOrdered = false;
+        System.out.println("Enter item number to order (0 to skip):");
+        int choice = inp.nextInt();
+        if(choice >=1 && choice <= breakfast.length){
+            char breakChoice=ladies[choice-1].charAt((ladies[choice-1].length())-1);
+            ladiesType(breakChoice);
+
+        if(orderedItems.length>=0){
+        for (int i = 0; i <= orderCount; i++) {
+            if(ladies[choice-1].equals(orderedItems[i])){
+             System.out.println("\n" + MAGENTA + "Item already added" + BG);
+            isAlreadyOrdered = true;
+            break;
+            }
+        }   
+        if (!isAlreadyOrdered) {
+            addOrder(ladies[choice-1], ladiesItemPrice[choice-1]);
+        }
+        }
+        }
+     }
+   
     // ---------------- PANEER STARTERS ----------------
     String paneerStarter[] = {"Paneer Chilli", "Paneer Tikka", "Dragon Paneer", "Paneer 65",
                               "Paneer Pudina Tikka", "Paneer Achari Tikka"};
@@ -286,30 +339,6 @@ void vegetableType(int thaliChoice){
         for (int i = 0; i < paneerStarter.length; i++) {
             System.out.printf("%d. %-25s %10.2f\n", (i+1), paneerStarter[i], paneerStarterPrice[i]);
         }
-    }
-    void orderPaneerStarter() {
-        System.out.println("Enter item number to order (0 to skip):");
-        int choice = inp.nextInt();
-        String selectedItem = paneerStarter[choice - 1];
-        boolean isAlreadyOrdered = false;
-        if (choice == 0) return;
-
-        if (choice < 1 || choice > paneerStarter.length) {
-        System.out.println(RED+"Invalid choice. Please try again."+BG);
-        return;
-         }
-
-        for (int i = 0; i < orderCount; i++) { 
-        if (orderedItems[i].equals(selectedItem)) {
-            isAlreadyOrdered = true;
-            break;
-        }
-      }
-        if (!isAlreadyOrdered) {
-        addOrder(selectedItem, paneerStarterPrice[choice - 1]);
-    } else {
-            System.out.println("\n"+MAGENTA+"Item already added"+BG);
-    }
     }
     // ---------------- PANEER DISHES ----------------
     String paneerDish[] = {"Paneer Butter Masala", "Paneer Punjabi", "Paneer Palak", "Paneer Mutter",
@@ -322,30 +351,6 @@ void vegetableType(int thaliChoice){
             System.out.printf("%d. %-25s %10.2f\n", (i+1), paneerDish[i], paneerDishPrice[i]);
         }
     }
-    void orderPaneerDish() {
-        System.out.println("Enter item number to order (0 to skip):");
-        int choice = inp.nextInt();
-        String selectedItem = paneerDish[choice - 1];
-        boolean isAlreadyOrdered = false;
-        if (choice == 0) return;
-
-        if (choice < 1 || choice > paneerDish.length) {
-        System.out.println(RED+"Invalid choice. Please try again."+BG);
-        return;
-         }
-
-        for (int i = 0; i < orderCount; i++) { 
-        if (orderedItems[i].equals(selectedItem)) {
-            isAlreadyOrdered = true;
-            break;
-        }
-      }
-        if (!isAlreadyOrdered) {
-        addOrder(paneerDish[choice-1], paneerDishPrice[choice-1]);
-    } else {
-            System.out.println("\n"+MAGENTA+"Item already added"+BG);
-    }
-    }
     // ---------------- CURD DISHES ----------------
     String curd[] = {"Veg Raita", "Loki Raita", "Aloo Raita", "Dahi Papdi",
                      "Boondi Raita", "Fruit Raita", "Dahi Vada"};
@@ -355,30 +360,6 @@ void vegetableType(int thaliChoice){
         for (int i = 0; i < curd.length; i++) {
             System.out.printf("%d. %-20s %10.2f\n", (i+1), curd[i], curdPrice[i]);
         }
-    }
-    void orderCurd() {
-        System.out.println("Enter item number to order (0 to skip):");
-        int choice = inp.nextInt();
-        String selectedItem = curd[choice - 1];
-        boolean isAlreadyOrdered = false;
-        if (choice == 0) return;
-
-        if (choice < 1 || choice > curd.length) {
-        System.out.println(RED+"Invalid choice. Please try again."+BG);
-        return;
-         }
-
-        for (int i = 0; i < orderCount; i++) { 
-        if (orderedItems[i].equals(selectedItem)) {
-            isAlreadyOrdered = true;
-            break;
-        }
-      }
-        if (!isAlreadyOrdered) {
-        addOrder(curd[choice-1], curdPrice[choice-1]);
-    } else {
-            System.out.println("\n"+MAGENTA+"Item already added"+BG);
-    }
     }
     // ---------------- SWEETS ----------------
     String sweet[] = {"Gulab Jamun", "Gajar Ka Halwa", "Aam Khand", "Vanilla",
@@ -390,33 +371,9 @@ void vegetableType(int thaliChoice){
             System.out.printf("%d. %-25s %10.2f\n", (i+1), sweet[i], sweetPrice[i]);
         }
     }
-    void orderSweet() {
-        System.out.println("Enter item number to order (0 to skip):");
-        int choice = inp.nextInt();
-        String selectedItem = sweet[choice - 1];
-        boolean isAlreadyOrdered = false;
-        if (choice == 0) return;
-
-        if (choice < 1 || choice > sweet.length) {
-        System.out.println(RED+"Invalid choice. Please try again."+BG);
-        return;
-         }
-
-        for (int i = 0; i < orderCount; i++) { 
-        if (orderedItems[i].equals(selectedItem)) {
-            isAlreadyOrdered = true;
-            break;
-        }
-      }
-        if (!isAlreadyOrdered) {
-        addOrder(sweet[choice-1], sweetPrice[choice-1]);
-    } else {
-            System.out.println("\n"+MAGENTA+"Item already added"+BG);
-    }
-    }
     String[] starter = {"Spring Rolls", "Momos","French fries", "Cheese Balls", "Bruschetta","Veg lollipop","Noodles"};
 
-    void chineseItems(){
+void chineseItems(){
     int ch;
     String items[] = {"Veg Manchurian","Chilli Paneer","Hakka Noodles","Fried Rice","Spring Rolls","Schezwan Noodles","Chilli Mushroom","Crispy Veg"};
      System.out.println(RESET+BOLD + MAROON + "\n=== CHINESE FOOD ITEMS  ===" + RESET+BG+BLACK);
@@ -450,7 +407,7 @@ void vegetableType(int thaliChoice){
         System.out.println(MAGENTA+"You Selected "+soup[v1-1]+BG);
         else
         System.out.println(RED+"Invalid choice"+BG);
-        }while(v1<0 || v1>4);
+        }while(v1<1 || v1>4);
         do{
         System.out.println(RESET+BOLD + MAROON + "Enter 2 soup "+RESET+BG+BLACK);
         v2=inp.nextInt();
@@ -462,7 +419,7 @@ void vegetableType(int thaliChoice){
           System.out.println(MAGENTA+"You Selected "+soup[v2-1]+BG);
         }else
         System.out.println(RED+"Invalid choice"+BG);
-        }while(v2<0||v2>4|| v1==v2);
+        }while(v2<1||v2>4|| v1==v2);
     }
 void starterSpecial(String[] selectedItems) {
     System.out.println(RESET + BOLD + MAROON + "===== STARTER LIST =====" + RESET + BG + BLACK);
@@ -570,7 +527,7 @@ void starterSpecial(String[] selectedItems) {
         System.out.println(MAGENTA+"You Selected "+veg[v1-1]+BG);
         else
         System.out.println(RED+"Invalid choice"+BG);
-        }while(v1<0 || v1>30);
+        }while(v1<1 || v1>30);
         selectedItems[1]=veg[v1-1];
         do{
         System.out.println(RESET+BOLD + MAROON + "Enter 2 vegitable "+RESET+BG+BLACK);
@@ -583,7 +540,7 @@ void starterSpecial(String[] selectedItems) {
           System.out.println(MAGENTA+"You Selected "+veg[v2-1]+BG);
         }else
         System.out.println(RED+"Invalid choice"+BG);
-        }while(v2<0||v2>30|| v1==v2);
+        }while(v2<1||v2>30|| v1==v2);
         selectedItems[2]=veg[v2-1];
     }
     void dalList(String selectedItems[]){
@@ -679,7 +636,7 @@ void starterSpecial(String[] selectedItems) {
         }while(ch<=0 || ch>9);
         selectedItems[10]=pasta[ch-1];
     }
-    void coffeeList(String selectedItems[]){
+    void coffeeList(String selectedItems[],int index){
         int ch;
         String[] coffee = {"Espresso", "Cappuccino", "Latte", "Americano", "Mocha", "Macchiato", "Irish Coffee", "Cold Coffee"};
         System.out.println(RESET+BOLD + MAROON + "===== COFFEE LIST ====="+RESET+BG+BLACK);
@@ -702,9 +659,9 @@ void starterSpecial(String[] selectedItems) {
             default:System.out.println(RED+"Invalid choice"+BG);
         }
         }while(ch<=0 || ch>8);
-        selectedItems[11]=coffee[ch-1];
+        selectedItems[index]=coffee[ch-1];
     }
-    void starterList(String selectedItems[]){
+    void starterList(String selectedItems[],int index){
         int ch;
         System.out.println(RESET+BOLD + MAROON + "===== STARTER LIST ====="+RESET+BG+BLACK);
         for(int i=0;i<starter.length;i++){
@@ -724,7 +681,7 @@ void starterSpecial(String[] selectedItems) {
             default:System.out.println(RED+"Invalid choice"+BG);
         }
         }while(ch<=0 || ch>7);
-        selectedItems[7]=starter[ch-1];
+        selectedItems[index]=starter[ch-1];
     }
     void curdOrder(String selectedItems[]){
         curdDishes();
@@ -770,7 +727,7 @@ void starterSpecial(String[] selectedItems) {
         }while(ch<=0 || ch>11);
         selectedItems[6]=paneerDish[ch-1];
     }
-    void paneerStarterOrder(String selectedItems[]){
+    void paneerStarterOrder(String selectedItems[],int index){
         System.out.println(RESET+BOLD + MAROON + "===== PANEER STARTER LIST =====" + RESET+BG+BLACK);
         for(int i=0;i<paneerStarter.length;i++)
         System.out.println((i+1)+". "+paneerStarter[i]);
@@ -788,9 +745,9 @@ void starterSpecial(String[] selectedItems) {
             default:System.out.println(RED+"Invalid choice"+BG);
         }
         }while(ch<=0 || ch>6);
-        selectedItems[9]=paneerStarter[ch-1];
+        selectedItems[index]=paneerStarter[ch-1];
     }
-    void sweetsList(String selectedItems[]){
+    void sweetsList(String selectedItems[],int index){
         System.out.println(RESET+BOLD + MAROON + "===== SWEETS LIST =====" + RESET+BG+BLACK);
         for(int i=0;i<sweet.length;i++)
         System.out.println((i+1)+". "+sweet[i]);
@@ -809,7 +766,7 @@ void starterSpecial(String[] selectedItems) {
             default:System.out.println(RED+"Invalid choice"+BG);
         }
         }while(ch<=0 || ch>7);
-        selectedItems[4]=sweet[ch-1];
+        selectedItems[index]=sweet[ch-1];
     }
         // ---------------- ORDER SYSTEM ----------------
     void addOrder(String item, double price) {
@@ -819,33 +776,42 @@ void starterSpecial(String[] selectedItems) {
         orderCount++;
         System.out.println(item + " added to order.");
     }
-    boolean great(String dateString, String pattern) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-            LocalDate inputDate = LocalDate.parse(dateString, formatter);
-
-            LocalDate currentDate = LocalDate.now();
-
-            return inputDate.isAfter(currentDate);
-        
-    }
     void details(){
+        do{
         System.out.print(BG+BLACK+"Enter your name : ");
         name=inp.nextLine();
+        }while(!name.matches(nameRegex));
         do{
         System.out.print("Enter total number of guest : ");
         guest=inp.nextInt();
         }while(guest<=0 ||guest>1000);
-
-        System.out.print("Enter mobile number : "+BG);
-        mob=inp.nextLong();
+        inp.nextLine();
         do{
-        System.out.print("Enter event date(foramte dd/mm/yy) : ");
-        date=inp.next();
-        }while(!date.matches("^(0[1-9]|[12][0-9]|3[01])/(0[0-9]|1[0-2])/\\d{4}$"));
+        System.out.print("Enter mobile number : "+BG);
+        mob=inp.nextLine();
+        }while(!mob.matches(mobileRegex));
+        while (true) {
+            System.out.println("Enter date (dd-MM-yyyy)");
+            String date = inp.nextLine();
+            try {
+                enteredDate = LocalDate.parse(date, formatter);
+
+                if (!enteredDate.isBefore(currentDate)) {
+                    break;
+                } else {
+                    System.out.println(RED+"Please try again."+BG);
+                }
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format! Please enter date as dd-MM-yyyy");
+            }
+        }
     }
     void displayBill() {
-        System.out.println(RESET+BOLD + MAROON + "How many guest present here" + RESET+BG+BLACK);
+        do{
+        System.out.println(RESET+BOLD + MAROON + "How many guest present here (Max 1000)" + RESET+BG+BLACK);
+        System.out.print("Enter total number of guest : ");
         currGuest=inp.nextInt();
+        }while(guest<=0 ||guest>1000);
         int extra=0;
         if(guest>=100){
             extra=5;
@@ -860,7 +826,7 @@ void starterSpecial(String[] selectedItems) {
             }
         }
         System.out.print("\u001b[2J\u001b[H");
-        System.out.println(RESET+BOLD + MAROON + "\n\t\t===============  JMB BILL   ===============" + RESET+BG+BLACK);
+        System.out.println(RESET+BOLD + MAROON + "\n\t\t=============== 🙏 JMB BILL 🙏  ===============" + RESET+BG+BLACK);
         System.out.println("\n--------------------------------------------\n");
         System.out.printf("%-10s%2s%25s%2s%n", "Bill No:", billno, "Customer Name:", name);
         System.out.printf("%-10s%2s%25s%2s%n", "No. of guest:", currGuest,"Booking Date:", date);
@@ -873,6 +839,7 @@ void starterSpecial(String[] selectedItems) {
             System.out.printf((i+1)+".  %-25s %-10d %-10.2f\n", orderedItems[i], currGuest, orderedPrices[i]);
         }
         System.out.println("------------------------------------------------------");
+        System.out.println("Total Bill (Member): " + ((guest >= currGuest) ? guest : currGuest));
         System.out.printf("TOTAL: %s\n", currencyFormatter.format(total));
         double gst=total*9/100;
         double totalGst=total+gst;
@@ -880,14 +847,88 @@ void starterSpecial(String[] selectedItems) {
         System.out.println("--------------------------------------------");
         System.out.printf("%-20s %s%n", "TOTAL(in. GST):", currencyFormatter.format(totalGst));
         System.out.println(RESET);
-        System.out.println(BOLD + MAROON + "\t\t==========  THANK YOU VISIT AGAIN ! ==========" + RESET);
+        System.out.println(BOLD + MAROON + "\t\t========== 😎 THANK YOU VISIT AGAIN !😇 ==========" + RESET);
         System.out.println(RESET);
         
     }
+void snacksListC(String type[], int index1, int index2) {
+    String[] snacks = {
+        "Samosa", "Spring Rolls", "Paneer Pakora", "Veg Cutlet", "Aloo Tikki",
+        "Onion Pakora", "Bread Roll", "Cheese Balls", "Hara Bhara Kabab", "French Fries"
+    };
+
+    int ch1, ch2;
+
+    System.out.println(RESET + BOLD + MAROON + "===== HEAVY SNACKS =====" + RESET + BG + BLACK);
+    for (int i = 0; i < snacks.length; i++) {
+        System.out.println((i + 1) + ". " + snacks[i]);
+    }
+    do {
+        System.out.println(RESET + BOLD + MAROON + "Enter your choice 1" + RESET + BG + BLACK);
+        ch1 = inp.nextInt();
+        if (ch1 >= 1 && ch1 <= snacks.length) {
+            type[index1] = snacks[ch1 - 1];
+        } else {
+            System.out.println("Invalid choice! Please try again.");
+        }
+    } while (ch1 < 1 || ch1 > snacks.length);
+
+    do {
+        System.out.println(RESET + BOLD + MAROON + "Enter your choice 2 (different from choice 1)" + RESET + BG + BLACK);
+        ch2 = inp.nextInt();
+
+        if (ch2 == ch1) {
+            System.out.println("You already selected this item. Choose another one.");
+            continue; 
+        }
+
+        if (ch2 >= 1 && ch2 <= snacks.length) {
+            type[index2] = snacks[ch2 - 1];
+        } else {
+            System.out.println("Invalid choice! Please try again.");
+        }
+    } while (ch2 < 1 || ch2 > snacks.length || ch2 == ch1);
+}
+
+void snacksList(String type[],int index){
+    String[] snacks = {"Samosa", "Spring Rolls", "Paneer Pakora", "Veg Cutlet", "Aloo Tikki", "Onion Pakora", "Bread Roll", "Cheese Balls", "Hara Bhara Kabab", "French Fries"};
+        int ch;
+        System.out.println(RESET+BOLD + MAROON + "===== HEAVY SNACKS =====" + RESET+BG+BLACK);
+        for(int i=0;i<snacks.length;i++){
+            System.out.println((i+1)+". "+snacks[i]);
+        }
+        do{
+        System.out.println(RESET+BOLD + MAROON + "Enter your choice" + RESET+BG+BLACK);
+        ch=inp.nextInt();
+        if(ch>0 && ch<=snacks.length){
+            type[index]=snacks[ch-1];
+        }
+        }while(ch<1 || ch>snacks.length);
+    }
+    
   void dis(String str1[]){
     System.out.println(RESET+BOLD + MAROON + "===== OREDRED THALI ITEMS =====" + RESET+BG+BLACK);
     for(String str:str1)
     System.out.println(str);
     System.out.println("Roti,Naan,Butter Paratha\nPickle, Salad, Papad");
-}   
+}  
+  void disBreak(String str1[]){
+    System.out.println(RESET+BOLD + MAROON + "===== OREDRED ITEMS =====" + RESET+BG+BLACK);
+    for(String str:str1)
+    System.out.println(str);
+}  
+void teaOrCoffee(String type[]){
+    int ch;
+    do{
+    System.out.println(RESET+BOLD + MAROON + "Enter your choice"+RESET +BG+BLACK+"\n1.Tea\n2.Coffee");
+    ch=inp.nextInt();
+    if(ch==1){
+        type[3]="Tea";
+    }else if(ch==2){
+    coffeeList(type,3);
+    }else{
+        System.out.println(RED+"Invalid choice"+BG);
+    }
+    }while(ch<=0 || ch>2);
+} 
 }
