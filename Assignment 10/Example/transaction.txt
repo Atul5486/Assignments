@@ -1,0 +1,4 @@
+Credited Amount 1000	Total Amount 11000
+
+Debited Amount 100      Total Amount 10900
+
