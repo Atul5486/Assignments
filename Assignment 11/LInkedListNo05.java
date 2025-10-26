@@ -1,0 +1,17 @@
+//  Write a Java program to insert the specified element at the specified position in the linked list
+import java.util.LinkedList;
+class Main{
+    public static void main(String args[]){
+        LinkedList<Integer> list=new LinkedList<>();
+        list.add(10);
+        list.add(100);
+        list.add(1000);
+        list.offerLast(101);
+        list.addLast(50);
+        list.add(4,20);
+
+        System.out.println(list);
+
+                 
+    }
+}
